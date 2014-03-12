@@ -107,11 +107,14 @@ myawesomemenu = { { "RTFM", terminal .. " -e man awesome" },
  		  { "lock", "xscreensaver-command -lock" },
 		  { "restart", awesome.restart },
 		  { "quit", awesome.quit } }
-
+myaudio = { { "player", "clementine" } }		  
+myprograms = { { "office", "libreoffice --quickstart" },
+	       { "audio", myaudio } } 
 eyeCandy = { { "wallpaper", "nitrogen" } }
 
-mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
-                                    { "eyecandy", eyeCandy }, 
+mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu }, -- beautiful.awesome_icon },
+                                    { "eyecandy", eyeCandy },
+				    { "programs", myprograms },
                                     { "terminal", terminal } } })
 
 mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon, menu = mymainmenu })
