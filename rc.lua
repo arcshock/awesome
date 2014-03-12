@@ -83,10 +83,16 @@ end
 -- }}}
 
 -- {{{ Tags
- tags = {
-   names  = { "main", "www", "skype", "gimp", "office", "im", 7, 8, 9 },
-   layout = { layouts[1], layouts[11], layouts[1], layouts[5], layouts[6], layouts[12], layouts[9], layouts[3], layouts[7] }
- }
+tags = { names  = { "main", " ⁂", "gimp", "✒", "☎","✉", "♫", 8, 9 },
+	 layout = { layouts["floating"], 
+	 	    layouts["fullscreen"], 
+		    layouts["floating"], 
+		    layouts["fullscreen"], 
+		    layouts["tile_bottom"], 
+		    layouts["magnifier"], 
+		    layouts["max"], 
+		    layouts["tile_left"], 
+		    layouts["fair"] } }
 
 for screenIndex = 1, screen.count() do
     -- Each screen has its own tag table.
