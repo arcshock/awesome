@@ -59,22 +59,19 @@ editor = os.getenv("EDITOR") or "gvim" or "vim"
 editor_cmd = terminal .. " -e " .. editor
 modkey = "Mod4"
 
--- Table of layouts to cover with awful.layout.inc, order matters.
-local layouts =
-{
-    awful.layout.suit.floating,
-    awful.layout.suit.tile,
-    awful.layout.suit.tile.left,
-    awful.layout.suit.tile.bottom,
-    awful.layout.suit.tile.top,
-    awful.layout.suit.fair,
-    awful.layout.suit.fair.horizontal,
-    awful.layout.suit.spiral,
-    awful.layout.suit.spiral.dwindle,
-    awful.layout.suit.max,
-    awful.layout.suit.max.fullscreen,
-    awful.layout.suit.magnifier
-}
+--{{{ Table of layouts to cover with awful.layout.inc, order matters.
+local layouts = { ["floating"] = awful.layout.suit.floating,
+		  ["tile"] = awful.layout.suit.tile,
+		  ["tile_left"] = awful.layout.suit.tile.left,
+		  ["tile_bottom"] = awful.layout.suit.tile.bottom,
+		  ["tile_top"] = awful.layout.suit.tile.top,
+		  ["fair"] = awful.layout.suit.fair,
+		  ["hozizontal"] = awful.layout.suit.fair.horizontal,
+		  ["spiral"] = awful.layout.suit.spiral,
+		  ["dwindle"] = awful.layout.suit.spiral.dwindle,
+		  ["max"] = awful.layout.suit.max,
+		  ["fullscreen"] = awful.layout.suit.max.fullscreen,
+		  ["magnifier"] = awful.layout.suit.magnifier }
 -- }}}
 
 --{{{ Wallpaper
