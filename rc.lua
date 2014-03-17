@@ -15,7 +15,7 @@ local beautiful = require("beautiful")
 local naughty = require("naughty")
 local menubar = require("menubar")
 local bashets = require("bashets")
-local progs = require("init")
+local progs = dofile("/home/voot/.config/awesome/lib/init.lua")
 
 
 --{{{ Bashets Config
