@@ -83,8 +83,8 @@ end
 -- }}}
 
 -- {{{ Tags
-tags = { names  = { "main", " ⁂", "gimp", "✒", "☎","✉", "♫", 8, 9 },
-	 layout = { layouts["floating"], 
+tags = { names  = { "main", "⁂", "gimp", "✒", "☎","✉", "♫", 8, 9 },
+	 layout = { layouts["fair"], 
 	 	    layouts["fullscreen"], 
 		    layouts["floating"], 
 		    layouts["fullscreen"], 
@@ -107,7 +107,7 @@ myawesomemenu = { { "RTFM", terminal .. " -e man awesome" },
  		  { "lock", "xscreensaver-command -lock" },
 		  { "restart", awesome.restart },
 		  { "quit", awesome.quit } }
-myaudio = { { "player", "clementine" } }		  
+myaudio = { { "player", "Clementine" } }		  
 myprograms = { { "office", "libreoffice --quickstart" },
 	       { "audio", myaudio } } 
 eyeCandy = { { "wallpaper", "nitrogen" } }
@@ -292,10 +292,11 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(layouts, -1) end),
     awful.key({ modkey, "Control" }, "n", awful.client.restore),
 
-    -- Prompt
-    awful.key({ modkey }, "r", function () mypromptbox[mouse.screen]:run() end),
-
-    awful.key({ modkey }, "x", function () awful.prompt.run({ prompt = "Run Lua code: " }, mypromptbox[mouse.screen].widget, awful.util.eval, nil, awful.util.getdir("cache") .. "/history_eval") end),
+    -- Run Prompt
+	awful.key({ modkey }, "r", function () mypromptbox[mouse.screen]:run() end),
+    -- Lua Prompt
+	awful.key({ modkey }, "x", function () awful.prompt.run({ prompt = "Run Lua code: " }, 
+		mypromptbox[mouse.screen].widget, awful.util.eval, nil, awful.util.getdir("cache") .. "/history_eval") end),
     -- Menubar
     awful.key({ modkey }, "p", function() menubar.show() end)
 )
@@ -370,7 +371,8 @@ awful.rules.rules = {
     { rule = { class = "MPlayer" }, properties = { floating = true } },
     { rule = { class = "pinentry" }, properties = { floating = true } },
     { rule = { class = "gimp" }, properties = { floating = true } },
-    { rule = { class = "Firefox" }, properties = { tag = tags[1][2] } },
+    { rule = { class = "Firefox" }, properties = { tag = tags[1][2] }, { tag = tags[2][2]} },
+    { rule = { class = "Clementine" }, properties = { tag = tags[2][7] } }
 }
 -- }}}
 
