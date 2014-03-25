@@ -372,7 +372,7 @@ awful.rules.rules = {
     { rule = { class = "pinentry" }, properties = { floating = true } },
     { rule = { class = "gimp" }, properties = { floating = true } },
     { rule = { class = "Firefox" }, properties = { tag = tags[1][2] } },
-    { rule = { class = "Clementine" }, properties = { tag = tags[2][7] } }
+    { rule = { class = "Clementine" }, properties = { tag = tags[1][7] } }
 }
 -- }}}
 
