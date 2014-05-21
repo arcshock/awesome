@@ -60,18 +60,18 @@ editor_cmd = terminal .. " -e " .. editor
 modkey = "Mod4"
 
 --{{{ Table of layouts to cover with awful.layout.inc, order matters.
-local layouts = { ["floating"] = awful.layout.suit.floating,
-		  ["tile"] = awful.layout.suit.tile,
-		  ["tile_left"] = awful.layout.suit.tile.left,
-		  ["tile_bottom"] = awful.layout.suit.tile.bottom,
-		  ["tile_top"] = awful.layout.suit.tile.top,
-		  ["fair"] = awful.layout.suit.fair,
-		  ["hozizontal"] = awful.layout.suit.fair.horizontal,
-		  ["spiral"] = awful.layout.suit.spiral,
-		  ["dwindle"] = awful.layout.suit.spiral.dwindle,
-		  ["max"] = awful.layout.suit.max,
-		  ["fullscreen"] = awful.layout.suit.max.fullscreen,
-		  ["magnifier"] = awful.layout.suit.magnifier }
+local layouts = { awful.layout.suit.floating, 		-- 1
+		  awful.layout.suit.tile,
+		  awful.layout.suit.tile.left,
+		  awful.layout.suit.tile.bottom,
+		  awful.layout.suit.tile.top,		-- 5
+		  awful.layout.suit.fair,
+		  awful.layout.suit.fair.horizontal,
+		  awful.layout.suit.spiral,
+		  awful.layout.suit.spiral.dwindle,
+		  awful.layout.suit.max,		-- 10
+		  awful.layout.suit.max.fullscreen,
+		  awful.layout.suit.magnifier }
 -- }}}
 
 --{{{ Wallpaper
@@ -84,15 +84,15 @@ end
 
 -- {{{ Tags
 tags = { names  = { "main", "⁂", "gimp", "✒", "☎","✉", "♫", 8, 9 },
-	 layout = { layouts["fair"], 
-	 	    layouts["fullscreen"], 
-		    layouts["floating"], 
-		    layouts["fullscreen"], 
-		    layouts["tile_bottom"], 
-		    layouts["magnifier"], 
-		    layouts["max"], 
-		    layouts["tile_left"], 
-		    layouts["fair"] } }
+	 layout = { layouts[6], 
+	 	    layouts[10], 
+		    layouts[1], 
+		    layouts[10], 
+		    layouts[4], 
+		    layouts[12], 
+		    layouts[10], 
+		    layouts[3], 
+		    layouts[8] } }
 
 for screenIndex = 1, screen.count() do
     -- Each screen has its own tag table.
@@ -265,32 +265,33 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "w", function () mymainmenu:show() end),
 
     -- Layout manipulation
-    awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end),
-    awful.key({ modkey, "Shift"   }, "k", function () awful.client.swap.byidx( -1)    end),
-    awful.key({ modkey, "Control" }, "j", function () awful.screen.focus_relative( 1) end),
-    awful.key({ modkey, "Control" }, "k", function () awful.screen.focus_relative(-1) end),
-    awful.key({ modkey,           }, "u", awful.client.urgent.jumpto),
-    awful.key({ modkey,           }, "Tab",
-        function ()
-            awful.client.focus.history.previous()
-            if client.focus then
-                client.focus:raise()
-            end
-        end),
+	awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end),
+	awful.key({ modkey, "Shift"   }, "k", function () awful.client.swap.byidx( -1)    end),
+	awful.key({ modkey, "Control" }, "j", function () awful.screen.focus_relative( 1) end),
+	awful.key({ modkey, "Control" }, "k", function () awful.screen.focus_relative(-1) end),
+	awful.key({ modkey,           }, "u", awful.client.urgent.jumpto),
+	awful.key({ modkey,           }, "Tab",
+		function ()
+			awful.client.focus.history.previous()
+			if client.focus then
+				client.focus:raise()
+			end
+		end),
 
     -- Standard program
-    awful.key({ modkey,           }, "Return", function () awful.util.spawn(terminal) end),
-    awful.key({ modkey, "Control" }, "r", awesome.restart),
-    awful.key({ modkey, "Shift"   }, "q", bashets.stop, awesome.quit),
-    awful.key({ modkey,           }, "l", function () awful.tag.incmwfact( 0.05) end),
-    awful.key({ modkey,           }, "h", function () awful.tag.incmwfact(-0.05) end),
-    awful.key({ modkey, "Shift"   }, "h", function () awful.tag.incnmaster( 1) end),
-    awful.key({ modkey, "Shift"   }, "l", function () awful.tag.incnmaster(-1) end),
-    awful.key({ modkey, "Control" }, "h", function () awful.tag.incncol( 1) end),
-    awful.key({ modkey, "Control" }, "l", function () awful.tag.incncol(-1) end),
-    awful.key({ modkey,           }, "space", function () awful.layout.inc(layouts,  1) end),
-    awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(layouts, -1) end),
-    awful.key({ modkey, "Control" }, "n", awful.client.restore),
+	awful.key({ modkey,           }, "Return", function () awful.util.spawn(terminal) end),
+	awful.key({ modkey, "Control" }, "r", awesome.restart),
+	awful.key({ modkey, "Shift"   }, "q", bashets.stop, awesome.quit),
+	awful.key({ modkey,           }, "l", function () awful.tag.incmwfact( 0.05) end),
+	awful.key({ modkey,           }, "h", function () awful.tag.incmwfact(-0.05) end),
+	awful.key({ modkey, "Shift"   }, "h", function () awful.tag.incnmaster( 1) end),
+	awful.key({ modkey, "Shift"   }, "l", function () awful.tag.incnmaster(-1) end),
+	awful.key({ modkey, "Control" }, "h", function () awful.tag.incncol( 1) end),
+	awful.key({ modkey, "Control" }, "l", function () awful.tag.incncol(-1) end),
+	awful.key({ modkey,           }, "space", function () awful.layout.inc(layouts,  1)
+			naughty.notify({ title = 'Layout', text = awful.layout.getname(), timeout = 1 }) end),
+	awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(layouts, -1) end),
+	awful.key({ modkey, "Control" }, "n", awful.client.restore),
 
     -- Run Prompt
 	awful.key({ modkey }, "r", function () mypromptbox[mouse.screen]:run() end),
@@ -298,7 +299,7 @@ globalkeys = awful.util.table.join(
 	awful.key({ modkey }, "x", function () awful.prompt.run({ prompt = "Run Lua code: " }, 
 		mypromptbox[mouse.screen].widget, awful.util.eval, nil, awful.util.getdir("cache") .. "/history_eval") end),
     -- Menubar
-    awful.key({ modkey }, "p", function() menubar.show() end)
+	awful.key({ modkey }, "p", function() menubar.show() end)
 )
 
 clientkeys = awful.util.table.join(
