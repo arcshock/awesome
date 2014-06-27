@@ -5,14 +5,15 @@
 -- Purpose: list of programs to execute on Awesome WM startup
 --]]
 
---[[ includes ]]--
+--{{{ Includes
 local awful = require("awful")
---local init = {}
+--}}}
 
---{{{ Local init function
-function programs()
+local Init_Module = {}
+
+function Init_Module.start()
 	awful.util.spawn_with_shell("run_once.sh xcompmgr -cF &")
 	awful.util.spawn_with_shell("run_once.sh xscreensaver &")
-	awful.util.spawn_with_shell("run_once.sh kmix")
 end
---}}}
+
+return Init_Module
