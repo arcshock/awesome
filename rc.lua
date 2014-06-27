@@ -4,7 +4,18 @@
 --Purpose: Awesome WM configureation file
 ]]--
 
---[[ includes ]]--
+
+--{{{
+CONFIG_DIR = os.getenv("XDG_CONFIG_HOME") .. "/awesome/"
+package.path = "/home/voot/.config/awesome/lib/?.lua;" .. package.path
+
+terminal = "konsole" or "xterm"
+editor = os.getenv("EDITOR") or "gvim" or "vim"
+editor_cmd = terminal .. " -e " .. editor
+modkey = "Mod4"
+--}}}
+
+--{{{ Includes
 local gears = require("gears")
 local awful = require("awful")
       awful.rules = require("awful.rules")
@@ -15,7 +26,8 @@ local beautiful = require("beautiful")
 local naughty = require("naughty")
 local menubar = require("menubar")
 local bashets = require("bashets")
-local progs = dofile("/home/voot/.config/awesome/lib/init.lua")
+local init = require("init")
+--}}}
 
 
 --{{{ Bashets Config
@@ -24,100 +36,102 @@ bashets.set_temporary_path("/dev/shm/tmp/")
 --}}}
 
 
--- {{{ Error handling
+--{{{ Error handling
 if awesome.startup_errors then
-    naughty.notify({ preset = naughty.config.presets.critical,
-                     title = "Way to go dumbass, errors during startup!",
-                     text = awesome.startup_errors })
+	naughty.notify({ preset = naughty.config.presets.critical,
+										title = "Way to go dumbass, errors during startup!",
+										text = awesome.startup_errors })
 end
 
 do
-    local in_error = false
-    awesome.connect_signal("debug::error", function (err)
-        if in_error then return end
-        in_error = true
+	local in_error = false
+		awesome.connect_signal("debug::error", function (err)
+			if in_error then
+				return end
+			
+			in_error = true
 
-        naughty.notify({ preset = naughty.config.presets.critical,
+			naughty.notify({ preset = naughty.config.presets.critical,
                          title = "Oops, an error happened!",
                          text = err })
-        in_error = false
-    end)
+			in_error = false
+		end)
 end
 -- }}}
 
+
 --{{{ Variable definitions
 -- Themes define colours, icons, and wallpapers
-beautiful.init("/home/voot/.config/awesome/themes/zenburn/theme.lua")
+beautiful.init(CONFIG_DIR .. "themes/zenburn/theme.lua") -- Should read in from file?
 dnicon = wibox.widget.textbox()
 upicon = wibox.widget.textbox()
-dnicon.image = "/home/voot/.config/awesome/icons/icojoy/icons_9x9/png/red/normal/001_54.png"
-upicon.image = "/home/voot/.config/awesome/icons/icojoy/icons_9x9/png/green/normal/001_56.png"
-beautiful.widget_net = "/home/voot/.config/awesome/icons/icojoy/icons_9x9/png/red/normal/001_54.png"
+dnicon.image = CONFIG_DIR .. "icons/icojoy/icons_9x9/png/red/normal/001_54.png"
+upicon.image = CONFIG_DIR .. "icons/icojoy/icons_9x9/png/green/normal/001_56.png"
+beautiful.widget_net = CONFIG_DIR .. "icons/icojoy/icons_9x9/png/red/normal/001_54.png"
 
-terminal = "konsole" or "xterm"
-editor = os.getenv("EDITOR") or "gvim" or "vim"
-editor_cmd = terminal .. " -e " .. editor
-modkey = "Mod4"
 
 --{{{ Table of layouts to cover with awful.layout.inc, order matters.
-local layouts = { awful.layout.suit.floating, 		-- 1
-		  awful.layout.suit.tile,
-		  awful.layout.suit.tile.left,
-		  awful.layout.suit.tile.bottom,
-		  awful.layout.suit.tile.top,		-- 5
-		  awful.layout.suit.fair,
-		  awful.layout.suit.fair.horizontal,
-		  awful.layout.suit.spiral,
-		  awful.layout.suit.spiral.dwindle,
-		  awful.layout.suit.max,		-- 10
-		  awful.layout.suit.max.fullscreen,
-		  awful.layout.suit.magnifier }
+local layouts = { awful.layout.suit.floating,	-- 1
+	awful.layout.suit.tile,
+	awful.layout.suit.tile.left,
+	awful.layout.suit.tile.bottom,
+	awful.layout.suit.tile.top,					-- 5
+	awful.layout.suit.fair,
+	awful.layout.suit.fair.horizontal,
+	awful.layout.suit.spiral,
+	awful.layout.suit.spiral.dwindle,
+	awful.layout.suit.max,							-- 10
+	awful.layout.suit.max.fullscreen,
+	awful.layout.suit.magnifier }
 -- }}}
 
 --{{{ Wallpaper
 if beautiful.wallpaper then
-    for s = 1, screen.count() do
-        gears.wallpaper.maximized(beautiful.wallpaper, s, true)
-    end
+	for screen_index = 1, screen.count() do
+		gears.wallpaper.maximized(beautiful.wallpaper, screen_index, true)
+	end
 end
 -- }}}
 
 -- {{{ Tags
-tags = { names  = { "main", "⁂", "gimp", "✒", "☎","✉", "♫", 8, 9 },
-	 layout = { layouts[6], 
-	 	    layouts[10], 
-		    layouts[1], 
-		    layouts[10], 
-		    layouts[4], 
-		    layouts[12], 
-		    layouts[10], 
-		    layouts[3], 
-		    layouts[8] } }
+tags = { 	names  = { "main", "⁂", "gimp", "✒", "☎","✉", "♫", 8, 9 },
+					layout = { 	layouts[6], 
+											layouts[10], 
+											layouts[1], 
+											layouts[10], 
+											layouts[4], 
+											layouts[12], 
+											layouts[10], 
+											layouts[3], 
+											layouts[8] } 
+				}
 
-for screenIndex = 1, screen.count() do
-    -- Each screen has its own tag table.
-    tags[screenIndex] = awful.tag(tags.names, screenIndex, tags.layout)
+for screen_index = 1, screen.count() do
+	tags[screen_index] = awful.tag(tags.names, screen_index, tags.layout) -- Each screen has its own tag table.
 end
 -- }}}
 
 -- {{{ Main Menu 
 -- Create a laucher widget and a main menu
-myawesomemenu = { { "RTFM", terminal .. " -e man awesome" },
-		  { "edit config", editor_cmd .. " " .. awesome.conffile },
- 		  { "lock", "xscreensaver-command -lock" },
-		  { "restart", awesome.restart },
-		  { "quit", awesome.quit } }
-myaudio = { { "player", "Clementine" } }		  
-myprograms = { { "office", "libreoffice --quickstart" },
-	       { "audio", myaudio } } 
-eyeCandy = { { "wallpaper", "nitrogen" } }
+my_awesome_menu = { { "RTFM", terminal .. " -e man awesome" },
+									{ "edit config", editor_cmd .. " " .. awesome.conffile },
+									{ "lock", "xscreensaver-command -lock" },
+									{ "restart", awesome.restart },
+									{ "quit", awesome.quit } }
 
-mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu }, -- beautiful.awesome_icon },
-                                    { "eyecandy", eyeCandy },
-				    { "programs", myprograms },
-                                    { "terminal", terminal } } })
+my_audio = { { "player", "Clementine" } }
 
-mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon, menu = mymainmenu })
+my_programs = { { "office", "libreoffice --quickstart" },
+								{ "audio", my_audio } }
+
+eye_candy = { { "wallpaper", "nitrogen" } }
+
+my_main_menu = awful.menu({ items = { { "awesome", my_awesome_menu },
+                                    	{ "eyecandy", eye_candy },
+																			{ "programs", my_programs },
+                                    	{ "terminal", terminal } } })
+
+my_launcher = awful.widget.launcher({ image = beautiful.awesome_icon, menu = my_main_menu })
 
 menubar.utils.terminal = terminal 
 -- }}}
@@ -215,7 +229,7 @@ for s = 1, screen.count() do
 
     -- Widgets that are aligned to the left
     local left_layout = wibox.layout.fixed.horizontal()
-    left_layout:add(mylauncher)
+    left_layout:add(my_launcher)
     left_layout:add(mytaglist[s])
     left_layout:add(mypromptbox[s])
 
@@ -241,7 +255,7 @@ end
 
 -- {{{ Mouse bindings
 root.buttons(awful.util.table.join(
-    awful.button({ }, 3, function () mymainmenu:toggle() end),
+    awful.button({ }, 3, function () my_main_menu:toggle() end),
     awful.button({ }, 4, awful.tag.viewnext),
     awful.button({ }, 5, awful.tag.viewprev)))
 -- }}}
@@ -299,7 +313,8 @@ globalkeys = awful.util.table.join(
 	awful.key({ modkey }, "x", function () awful.prompt.run({ prompt = "Run Lua code: " }, 
 		mypromptbox[mouse.screen].widget, awful.util.eval, nil, awful.util.getdir("cache") .. "/history_eval") end),
     -- Menubar
-	awful.key({ modkey }, "p", function() menubar.show() end)
+	awful.key({ modkey }, "p", function() menubar.show() end),
+	awful.key({ modkey, "Control", "Alt" }, "l", function () awful.util.spawn("xscreensaver-command -lock") end)
 )
 
 clientkeys = awful.util.table.join(
@@ -439,11 +454,7 @@ client.connect_signal("focus", function(c) c.border_color = beautiful.border_foc
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
 
--- {{{ Xscreensaver
--- Setting up screen locking with Xscreensaver
-awful.key({ modkey, "Control" }, "l", function () awful.util.spawn("xscreensaver-command -lock") end)
--- }}}
 
---[[ Run Once Programs ]]--
-programs()
-
+--{{{ Run Once Programs
+init.start()
+--}}}
