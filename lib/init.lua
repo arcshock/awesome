@@ -14,6 +14,7 @@ local Init_Module = {}
 function Init_Module.start()
 	awful.util.spawn_with_shell("run_once.sh xcompmgr -cF &")
 	awful.util.spawn_with_shell("run_once.sh xscreensaver &")
+	awful.util.spawn_with_shell("run_once.sh kmix")
 end
 
 return Init_Module
