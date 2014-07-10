@@ -90,7 +90,8 @@ local programs = {
 
 
 local customization = { 
-	{ "wallpaper", "nitrogen" } 
+	{ "wallpaper", "nitrogen" },
+	{ "appearance", "lxappearance" }
 }
 
 
