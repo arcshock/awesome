@@ -102,6 +102,7 @@ my_main_menu = awful.menu({
 			{ "programs", programs },
 			{ "terminal", terminal },
 			{ "lock", "xscreensaver-command -lock" },
+			{ "screen off", "xset dpms force off" },
 	}
 })
 
