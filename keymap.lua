@@ -59,7 +59,13 @@ globalkeys = awful.util.table.join(
 		mypromptbox[mouse.screen].widget, awful.util.eval, nil, awful.util.getdir("cache") .. "/history_eval") end),
     -- Menubar
 	awful.key({ modkey }, "p", function() menubar.show() end),
-	awful.key({ modkey, "Control", "Alt" }, "l", function () awful.util.spawn("xscreensaver-command -lock") end)
+    -- Misc
+	awful.key({ modkey, "Control", "Alt" }, "l", function () awful.util.spawn("xscreensaver-command -lock") end),
+    -- Volume
+        awful.key({}, "XF86AudioLowerVolume", function () awful.util.spawn("amixer -q -c 0 set Master 2dB-") end),
+        awful.key({}, "XF86AudioRaiseVolume", function () awful.util.spawn("amixer -q -c 0 set Master 2dB+") end),
+        awful.key({ modkey }, "F6", function () awful.util.spawn("amixer -q -c 0 set Master 2dB-") end),
+        awful.key({ modkey }, "F7", function () awful.util.spawn("amixer -q -c 0 set Master 2dB+") end)
 )
 
 clientkeys = awful.util.table.join(
